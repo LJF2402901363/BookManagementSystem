@@ -264,15 +264,21 @@
                 alert("请填入完整图书信息！");
                 return ;
             }
+            var fields = $('#addForm').serializeArray();
+            var obj = {}; //声明一个对象
+            $.each(fields, function(index, field) {
+                obj[field.name] = field.value; //通过变量，将属性值，属性一起放到对象中
+            })
             $.ajax({
                 "url":"${pageContext.request.contextPath}/updateLendBook",
                 "type":"POST",
                 "contentType" : 'application/json;charset=utf-8',
-                "data":$("#addForm").serialize(),
+                "data":JSON.stringify(obj),
                 "dataType":"json",
                 "success":function (data) {
                     if (data.status== 1){
                         alert("更新成功！")
+                        dt.ajax.reload();
                     }else{
                         alert("更新失败！")
                     }

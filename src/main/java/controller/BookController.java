@@ -1,6 +1,7 @@
 package controller;
 
 import bean.Book;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -60,23 +61,12 @@ public class BookController {
 
     }
 
-    @RequestMapping("/querybook.html")
-    public ModelAndView queryBookDo(String searchWord) {
-        if (bookService.matchBook(searchWord)) {
-            ArrayList<Book> books = bookService.queryBook(searchWord);
-            ModelAndView modelAndView = new ModelAndView("admin_books");
-            modelAndView.addObject("books", books);
-            return modelAndView;
-        } else {
-            return new ModelAndView("admin_books", "error", "没有匹配的图书");
-        }
-    }
 
 
 
     @RequestMapping("/addbook.html")
     @ResponseBody
-    public Map<String,String> addBook(@RequestBody Book book) {
+    public String addBook(@RequestBody Book book) {
         boolean fla = this.bookService.addBook(book);
         Map<String,String> map = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -87,14 +77,19 @@ public class BookController {
             map.put("msg","添加失败");
             map.put("status","0");
         }
-
-        return map;
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
 
 
     @RequestMapping("/updatebook.html")
     @ResponseBody
-    public Map<String,String>  bookEdit( @RequestBody Book book) {
+    public String  bookEdit( @RequestBody Book book) {
         boolean editBook = this.bookService.editBook(book);
         Map<String,String>  map = new HashMap<>();
         if (editBook){
@@ -105,12 +100,19 @@ public class BookController {
             map.put("msg","更新失败!");
             map.put("status","0");
         }
-        return map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
 
     @RequestMapping("/deletebook.html")
     @ResponseBody
-    public  Map<String,String>  bookEditDo(@RequestParam(value = "bookId") Long bookId) {
+    public  String bookEditDo(@RequestParam(value = "bookId") Long bookId) {
         boolean fla = this.bookService.deleteBook(bookId);
         Map<String,String>  map = new HashMap<>();
         if (fla){
@@ -121,35 +123,21 @@ public class BookController {
             map.put("msg","删除失败!");
             map.put("status","0");
         }
-        return map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
 
-    @RequestMapping("/admin_book_detail.html")
-    public ModelAndView adminBookDetail(HttpServletRequest request) {
-        long bookId = Long.parseLong(request.getParameter("bookId"));
-        Book book = bookService.getBook(bookId);
-        ModelAndView modelAndView = new ModelAndView("admin_book_detail");
-        modelAndView.addObject("detail", book);
-        return modelAndView;
-    }
-
-    @RequestMapping("/reader_book_detail.html")
-    public ModelAndView readerBookDetail(HttpServletRequest request) {
-        long bookId = Long.parseLong(request.getParameter("bookId"));
-        Book book = bookService.getBook(bookId);
-        ModelAndView modelAndView = new ModelAndView("reader_book_detail");
-        modelAndView.addObject("detail", book);
-        return modelAndView;
-    }
 
     @RequestMapping("toAdmin_books")
     public ModelAndView admin_header() {
         return new ModelAndView("admin_books");
     }
 
-    @RequestMapping("/reader_header.html")
-    public ModelAndView reader_header() {
-        return new ModelAndView("reader_header");
-    }
 
 }

@@ -3,6 +3,7 @@ package controller;
 import bean.Book;
 import bean.ReaderCard;
 import bean.ReaderInfo;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -32,25 +33,6 @@ public class ReaderController {
 
     @Autowired
     private ReaderCardService readerCardService;
-
-    private ReaderInfo getReaderInfo(long readerId, String name, String sex, String birth, String address, String phone) {
-        ReaderInfo readerInfo = new ReaderInfo();
-        Date date = new Date();
-        try {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            date = df.parse(birth);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        readerInfo.setAddress(address);
-        readerInfo.setName(name);
-        readerInfo.setReaderId(readerId);
-        readerInfo.setPhone(phone);
-        readerInfo.setSex(sex);
-        readerInfo.setBirth(date);
-        return readerInfo;
-    }
-
     @RequestMapping("/toAdmin_readers")
     public String allBooks() {
 
@@ -59,7 +41,7 @@ public class ReaderController {
 
     @RequestMapping("/deleteReader")
     @ResponseBody
-    public Map<String,String> readerDelete(@RequestParam("readerId") Long readerId) {
+    public String readerDelete(@RequestParam("readerId") Long readerId) {
         boolean fla = this.readerInfoService.deleteReaderInfo(readerId);
         Map<String,String> map = new HashMap<>();
         if (fla  ){
@@ -69,7 +51,14 @@ public class ReaderController {
             map.put("msg","删除失败");
             map.put("status","0");
         }
-        return map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
 
     }
 
@@ -95,7 +84,7 @@ public class ReaderController {
 
     @RequestMapping("/updateReader")
     @ResponseBody
-    public Map<String,String>  readerInfoEdit(@RequestBody ReaderInfo readerInfo) {
+    public String readerInfoEdit(@RequestBody ReaderInfo readerInfo) {
         boolean fla = this.readerInfoService.editReaderInfo(readerInfo);
         Map<String,String> map = new HashMap<>();
         if (fla  ){
@@ -105,12 +94,19 @@ public class ReaderController {
             map.put("msg","更新失败");
             map.put("status","0");
         }
-        return map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
 
     @RequestMapping("/addReader.html")
     @ResponseBody
-    public  Map<String,String> addReader(@RequestBody ReaderInfo readerInfo) {
+    public  String addReader(@RequestBody ReaderInfo readerInfo) {
         long fla = this.readerInfoService.addReaderInfo(readerInfo);
         Map<String,String> map = new HashMap<>();
         if (fla   > 0){
@@ -120,6 +116,13 @@ public class ReaderController {
             map.put("msg","添加失败");
             map.put("status","0");
         }
-        return map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
 }

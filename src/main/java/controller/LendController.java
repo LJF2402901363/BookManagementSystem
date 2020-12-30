@@ -32,7 +32,7 @@ public class LendController {
 
     @RequestMapping("/deleteLendBok")
     @ResponseBody
-    public Map<String,String> deleteLend(@RequestParam("serNum") Long serNum) {
+    public String deleteLend(@RequestParam("serNum") Long serNum) {
         boolean fla = this.lendService.deleteLend(serNum);
         Map<String,String> map = new HashMap<>();
         if (fla){
@@ -43,7 +43,14 @@ public class LendController {
             map.put("status","0");
         }
 
-        return map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
     @RequestMapping("/toAdmin_Lends")
     public String toAdmin_Lends(){
@@ -133,7 +140,7 @@ public class LendController {
     }
     @ResponseBody
     @RequestMapping("/updateLendBook")
-  public   Map<String,String> updateLend(@RequestBody Lend lend){
+  public   String updateLend(@RequestBody Lend lend){
        boolean fla =  this.lendService.updateLend(lend);
         Map<String,String> map = new HashMap<>();
         if (fla){
@@ -144,7 +151,14 @@ public class LendController {
             map.put("status","0");
         }
 
-        return map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
   }
     @RequestMapping("/toReaderLendBookManagement")
     public String toReaderLendBookManagement() {
@@ -165,9 +179,8 @@ public class LendController {
 
     @RequestMapping("/lendbook.html")
     @ResponseBody
-    public Map<String,String>  lendbook(@RequestParam("readerId")Long readerId,@RequestParam("bookId")Long bookId) {
+    public String lendbook(@RequestParam("readerId")Long readerId,@RequestParam("bookId")Long bookId) {
         Map<String,String> map = new HashMap<>();
-        String msg ="";
         if (lendService.lendBook(bookId, readerId)) {
             Lend lend = new Lend();
             lend.setBookId(bookId);
@@ -188,12 +201,19 @@ public class LendController {
             map.put("status","0");
         }
 
-        return map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
 
     @RequestMapping("/backBook")
     @ResponseBody
-    public Map<String,String> bookReturn(@Param("bookId")Long bookId,@Param("readerId") Long readerId) {
+    public String bookReturn(@Param("bookId")Long bookId,@Param("readerId") Long readerId) {
         boolean fla = this.lendService.backBook(bookId, readerId);
         Map<String,String> map = new HashMap<>();
         if (fla){
@@ -203,7 +223,13 @@ public class LendController {
             map.put("msg","还书失败");
             map.put("status","0");
         }
-
-        return map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
 }

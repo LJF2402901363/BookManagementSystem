@@ -2,6 +2,7 @@ package controller;
 
 import bean.ReaderCard;
 import bean.ReaderInfo;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -31,29 +32,10 @@ public class ReaderCardController {
     @Autowired
     private ReaderCardService readerCardService;
 
-    private ReaderInfo getReaderInfo(long readerId, String name, String sex, String birth, String address, String phone) {
-        ReaderInfo readerInfo = new ReaderInfo();
-        Date date = new Date();
-        try {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            date = df.parse(birth);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        readerInfo.setAddress(address);
-        readerInfo.setName(name);
-        readerInfo.setReaderId(readerId);
-        readerInfo.setPhone(phone);
-        readerInfo.setSex(sex);
-        readerInfo.setBirth(date);
-        return readerInfo;
-    }
-
-
 
     @RequestMapping("/deleteReaderCard")
     @ResponseBody
-    public Map<String,String> readerDelete(@RequestParam("readerId") Long readerId) {
+    public String readerDelete(@RequestParam("readerId") Long readerId) {
         boolean fla = this.readerInfoService.deleteReaderInfo(readerId);
         Map<String,String> map = new HashMap<>();
         if (fla){
@@ -63,7 +45,14 @@ public class ReaderCardController {
             map.put("msg","删除失败");
             map.put("status","0");
         }
-     return  map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
 
     @RequestMapping("/readCard/findAll.do")
@@ -88,7 +77,7 @@ public class ReaderCardController {
 
     @RequestMapping("/updateReaderCard")
     @ResponseBody
-    public  Map<String,String> readerInfoEdit(@RequestBody ReaderCard readerInfo) {
+    public String readerInfoEdit(@RequestBody ReaderCard readerInfo) {
         boolean fla = this.readerInfoService.updateReadCard(readerInfo);
         Map<String,String> map = new HashMap<>();
         if (fla){
@@ -98,7 +87,14 @@ public class ReaderCardController {
             map.put("msg","更新失败");
             map.put("status","0");
         }
-        return map;
+        ObjectMapper objectMapper = new ObjectMapper();
+        String msg = "";
+        try {
+            msg = objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return msg;
     }
     @RequestMapping("/toAdmin_readerCards")
   public String toAdmin_readerCards(){

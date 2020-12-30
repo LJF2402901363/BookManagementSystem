@@ -158,13 +158,6 @@
             dom: 'Bfrtip',
             buttons: [
                 {
-                    text: '删除',
-                    className: "btn btn-primary",
-                    action: function(e, dt, node, config) {
-
-                    }
-                },
-                {
                     text:"刷新",
                     className: "btn btn-primary",
                     action: function(e, dt, node, config) {
