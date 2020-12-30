@@ -198,6 +198,7 @@
                             "success":function (data) {
                                 if (data.status== 1){
                                     alert(data.msg);
+                                    dt.ajax.reload();
                                 }else{
                                     alert(data.msg);
 
@@ -360,6 +361,7 @@
                 "success":function (data) {
                     if (data.status== 1){
                         alert("更新成功！")
+                        dt.ajax.reload();
                     }else{
                         alert("更新失败！")
                     }

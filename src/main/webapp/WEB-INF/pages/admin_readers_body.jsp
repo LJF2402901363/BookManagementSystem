@@ -45,7 +45,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    更新图书
+                    更新读者
                 </h4>
             </div>
             <div class="modal-body">
@@ -86,7 +86,7 @@
                     提交更改
                 </button>
                 <button type="button" class="btn btn-primary" id="addBookModalBtn">
-                    添加图书
+                    添加
                 </button>
             </div>
         </div><!-- /.modal-content -->
@@ -178,6 +178,7 @@
                             "success":function (data) {
                                 if (data.status== 1){
                                     alert(data.msg);
+                                    dt.ajax.reload();
                                 }else{
                                     alert(data.msg);
 
@@ -317,15 +318,21 @@
                 alert("请填入完整图书信息！");
                 return ;
             }
+            var fields = $('#addForm').serializeArray();
+            var obj = {}; //声明一个对象
+            $.each(fields, function(index, field) {
+                obj[field.name] = field.value; //通过变量，将属性值，属性一起放到对象中
+            })
             $.ajax({
                 "url":"${pageContext.request.contextPath}/updateReader",
                 "type":"POST",
                 "contentType" : 'application/json;charset=utf-8',
-                "data":$("#addForm").serialize(),
+                "data":JSON.stringify(obj),
                 "dataType":"json",
                 "success":function (data) {
                     if (data.status== 1){
                         alert("更新成功！")
+                        dt.ajax.reload();
                     }else{
                         alert("更新失败！")
                     }

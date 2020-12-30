@@ -40,7 +40,7 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                   图书详细
+                  记录详细
                 </h4>
             </div>
             <div class="modal-body">
@@ -132,13 +132,7 @@
             // 自动列宽
             "autoWidth": true,
             dom: 'Bfrtip',
-            buttons: [{
-                text: '新建',
-                className: "btn btn-primary",
-                action: function(e, dt, node, config) {
-
-                }
-            },
+            buttons: [
                 {
                     text: '删除',
                     className: "btn btn-primary",
