@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+<!--    开启SpringMVC注解-->
+    <mvc:annotation-driven enable-matrix-variables="true"/>
+
+    <!--    扫描controller包-->
+    <context:component-scan base-package="controller"></context:component-scan>
+    <!--    放行静态资源-->
+    <mvc:resources mapping="/static/**" location="/static/"></mvc:resources>
+    <mvc:resources mapping="/dist/**" location="/dist/"></mvc:resources>
+    <!--    配置视图解析器-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <!--    配置拦截器-->
+<!--    <mvc:interceptors>-->
+<!--        <mvc:interceptor>-->
+<!--            &lt;!&ndash;            配置拦截的文件映射路径&ndash;&gt;-->
+<!--            <mvc:mapping path="/**"/>-->
+<!--            &lt;!&ndash;            配置不拦截的文件映射路径&ndash;&gt;-->
+<!--            <mvc:exclude-mapping path="/administrator/homePage"/>-->
+<!--            <mvc:exclude-mapping path="/administrator/toLoginPage"/>-->
+<!--            <mvc:exclude-mapping path="/administrator/toRegister"/>-->
+<!--            <mvc:exclude-mapping path="/administrator/register"/>-->
+<!--            <mvc:exclude-mapping path="/email/send"/>-->
+<!--            &lt;!&ndash;            配置拦截器&ndash;&gt;-->
+<!--            <bean class="interceptor.AdministratorLoginInterceptor"></bean>-->
+<!--        </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
+</beans>

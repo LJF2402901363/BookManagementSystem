@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.BookDao">
+    <insert id="addBook" parameterType="bean.Book">
+        insert into book_info values
+        (null, #{book.name}, #{book.author}, #{book.publish}, #{book.ISBN},
+        #{book.introduction}, #{book.language}, #{book.price}, #{book.pub_date},
+        #{book.class_id}, #{book.number})
+    </insert>
+    <update id="editBook" parameterType="bean.Book">
+        update book_info set name=#{book.name}, author=#{book.author},
+        publish=#{book.publish}, ISBN=#{book.isbn}, introduction=#{book.introduction},
+        language=#{book.language}, price=#{book.price}, pub_date=#{book.pub_date},
+        class_id=#{book.class_id}, number=#{book.number} where book_id=#{book.bookId}
+    </update>
+    <select id="queryBook" resultType="bean.Book" parameterType="String">
+        select * from book_info where name like concat('%', #{searchWord},'%')
+        or author like concat('%', #{searchWord},'%') or introduction like concat('%', #{searchWord},'%')
+    </select>
+    <select id="matchBook" resultType="int" parameterType="String">
+        select count(*) from book_info where name like concat('%', #{searchWord},'%')
+        or author like concat('%', #{searchWord},'%') or introduction like concat('%', #{searchWord},'%')
+    </select>
+    <select id="getBook" resultType="bean.Book" parameterType="long">
+        select * from book_info where book_id = #{bookId}
+    </select>
+    <delete id="deleteBook" parameterType="long">
+        delete from book_info where book_id = #{bookId}
+    </delete>
+
+    <update id="returnBookAddNum" parameterType="long">
+        update book_info
+        set number = number + 1
+        where book_id = #{bookId}
+    </update>
+</mapper>

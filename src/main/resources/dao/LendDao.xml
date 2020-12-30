@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.LendDao">
+    <resultMap id="lendResult" type="bean.Lend">
+        <id property="serNum" column="ser_num"></id>
+        <result property="bookId" column="book_id" javaType="java.lang.Long"></result>
+        <result property="readerId" column="reader_id" javaType="java.lang.Long"></result>
+        <association property="book" column="book_id" javaType="bean.Book" select="selectBook"/>
+        <association property="readerInfo" column="author_id" javaType="bean.ReaderInfo" select="selectReaderInfo"/>
+    </resultMap>
+
+    <select id="selectBook" resultType="bean.Book">
+        SELECT *
+        FROM book_info
+        WHERE book_id = #{bookId}
+    </select>
+    <update id="updateLend" parameterType="bean.Lend">
+
+        update lend_lsit
+        set book_id   =#{lend.bookId},
+            reader_id = #{lend.readerId},
+            lend_date = #{lend.lendDate},
+            back_date=#{lend.backDate}
+        where ser_num = #{lend.serNum};
+    </update>
+    <select id="selectReaderInfo" resultType="bean.ReaderInfo">
+        SELECT *
+        FROM reader_info
+        WHERE reader_id = #{readerId}
+    </select>
+    <select id="queryLendBookById" resultMap="lendResult">
+        SELECT *
+        FROM lend_list
+        WHERE ser_num = #{serNum}
+    </select>
+
+    <select id="queryLendBook" resultMap="lendResult">
+        SELECT *
+        FROM lend_list
+        WHERE ser_num like concat('%', #{searchWord}, '%')
+           or book_id like concat('%', #{searchWord}, '%')
+           or reader_id like concat('%', #{searchWord}, '%')
+           or lend_date like concat('%', #{searchWord}, '%')
+           or back_date like concat('%', #{searchWord}, '%')
+    </select>
+
+    <update id="backBook">
+        update lend_list
+        set back_date = sysdate()
+        where book_id = #{bookId}
+          and reader_id = #{readerId}
+          and back_date is null
+    </update>
+
+    <insert id="lendBookOne">
+        insert into lend_list
+        values (null, #{bookId}, #{readerId}, sysdate(), null)
+    </insert>
+    <update id="lendBookTwo" parameterType="long">
+        update book_info
+        set number = number - 1
+        where book_id = #{bookId}
+    </update>
+
+    <select id="myLendList" resultType="bean.Lend" parameterType="long">
+        select *
+        from lend_list
+        where reader_id = #{readerId}
+    </select>
+    <delete id="deleteLend" parameterType="long">
+        delete
+        from lend_list
+        where ser_num = #{serNum}
+    </delete>
+    <insert id="addLend" parameterType="bean.Lend">
+        insert into lend_list(book_id, reader_id, lend_date, back_date)
+        values (#{lend.bookId}, #{lend.readerId}, #{lend.lendDate}, #{lend.backDate})
+    </insert>
+
+    <select id="queryLendBookByReaderId" resultMap="lendResult">
+        select distinct ser_num, book_id, reader_id, lend_date, back_date
+        from lend_list
+        where reader_id = #{readerId}
+          and back_date is null
+          and (ser_num like concat('%', #{searchWord}, '%') or
+               book_id like concat('%', #{searchWord}, '%') or
+               reader_id like concat('%', #{searchWord}, '%') or
+               lend_date like concat('%', #{searchWord}, '%') or
+               back_date like concat('%', #{searchWord}, '%'))
+    </select>
+
+    <select id="queryBackBookByReaderId" resultMap="lendResult">
+        select distinct ser_num, book_id, reader_id, lend_date, back_date
+        from lend_list
+        where reader_id = #{readerId}
+          and back_date is not  null
+          and (
+                ser_num like concat('%', #{searchWord}, '%') or
+                book_id like concat('%', #{searchWord}, '%') or
+                reader_id like concat('%', #{searchWord}, '%') or
+                lend_date like concat('%', #{searchWord}, '%') or
+                back_date like concat('%', #{searchWord}, '%')
+              )
+    </select>
+    <select id="queryLendAndBackBookByReaderId" resultMap="lendResult">
+        select distinct ser_num, book_id, reader_id, lend_date, back_date
+        from lend_list
+        where reader_id = #{readerId}
+          and (
+                ser_num like concat('%', #{searchWord}, '%') or
+                book_id like concat('%', #{searchWord}, '%') or
+                reader_id like concat('%', #{searchWord}, '%') or
+                lend_date like concat('%', #{searchWord}, '%') or
+                back_date like concat('%', #{searchWord}, '%')
+            )
+    </select>
+
+</mapper>
