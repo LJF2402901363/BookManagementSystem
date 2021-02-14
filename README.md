@@ -178,9 +178,9 @@ CREATE TABLE `reader_info` (
 
 
 
-![image-20201230113128537](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230113128537.png)
+![image-20201230113128537](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230113128537.png)
 
-![image-20201230113258554](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230113258554.png)
+![image-20201230113258554](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230113258554.png)
 
 **基于[adminlte](https://adminlte.io/)二次开发，如想再次基础上再开发，可参考具体的模板。**真正开发的时候只需要开发body模块即可。
 
@@ -188,21 +188,21 @@ CREATE TABLE `reader_info` (
 
 ## 5.已经实现的功能
 
-### 5.1管理员![image-20201230113816403](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230113816403.png)
+### 5.1管理员![image-20201230113816403](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230113816403.png)
 
 
 
-![image-20201230120804530](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230120804530.png)
+![image-20201230120804530](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230120804530.png)
 
 
 
-![image-20201230120836685](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230120836685.png)
+![image-20201230120836685](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230120836685.png)
 
-![image-20201230120918230](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230120918230.png)
+![image-20201230120918230](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230120918230.png)
 
 
 
-![image-20201230120942570](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230120942570.png)
+![image-20201230120942570](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230120942570.png)
 
 
 
@@ -212,17 +212,17 @@ CREATE TABLE `reader_info` (
 
 ### 5.2用户
 
-![image-20201230114158669](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230114158669.png)
+![image-20201230114158669](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230114158669.png)
 
-![image-20201230121042190](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230121042190.png)
+![image-20201230121042190](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230121042190.png)
 
 
 
-![image-20201230121135810](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230121135810.png)
+![image-20201230121135810](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230121135810.png)
 
 ### 5.3登录
 
-![image-20201230114243150](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230114243150.png)
+![image-20201230114243150](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230114243150.png)
 
 管理者账号：123456/123456 
 
@@ -235,7 +235,7 @@ CREATE TABLE `reader_info` (
 ### 6.1环境
 
 idea2020，Tomcat8，maven3.6，MySQL8，druid数据库连接池，本人jdk11,也可以使用jdk8，在 pom.xml中修改为1.8即可
-![image-20201230123651977](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230123651977.png)
+![image-20201230123651977](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230123651977.png)
 
 ### 6.2这是一个基于maven管理的项目，拉取项目到本地后导入项目到idea
 
@@ -244,12 +244,12 @@ git clone https://github.com/LJF2402901363/BookManagementSystem.git
 ```
 
 然后配置Tomcat
-![image-20201230122827584](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230122827584.png)
+![image-20201230122827584](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230122827584.png)
 
 ### 6.3在Navicat或者其他数据库客户端中首先新建一个Library数据库，然后导入项目中libray.sql文件即可。
 
 如果你新建的数据库名字 不是library，那么请修改druid.properties文件中的配置：
 
-![image-20201230123510084](E:\JavaWorkSpace\idea-workspace\booksystem1\readmeimages\image-20201230123510084.png)
+![image-20201230123510084](https://gitee.com/ljf2402901363/picgo-images/raw/master/typora/image-20201230123510084.png)
 
 #### 6.4启动Tomcat进入登录页面
