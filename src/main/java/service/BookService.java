@@ -13,51 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-@Transactional
-public class BookService {
-    @Autowired
-    private BookDao bookDao;
-    @Autowired
-    private LendDao lendDao;
-    @Transactional(isolation = Isolation.DEFAULT,readOnly = true)
-    public ArrayList<Book> queryBook(String searchWord) {
-        return bookDao.queryBook(searchWord);
-    }
-    @Transactional(isolation = Isolation.DEFAULT,readOnly = true)
-    public boolean matchBook(String searchWord) {
-        return bookDao.matchBook(searchWord) > 0;
-    }
-    @Transactional(isolation = Isolation.DEFAULT,readOnly = false)
-    public boolean addBook(Book book) {
-        return bookDao.addBook(book) > 0;
-    }
-    @Transactional(isolation = Isolation.DEFAULT,readOnly = true)
-    public Book getBook(Long bookId) {
-        return bookDao.getBook(bookId);
-    }
-    @Transactional(isolation = Isolation.DEFAULT,readOnly = false)
-    public boolean editBook(Book book) {
-        return bookDao.editBook(book) > 0;
-    }
-    @Transactional(isolation = Isolation.DEFAULT,readOnly = false)
-    public boolean deleteBook(Long bookId) {
-        return bookDao.deleteBook(bookId) > 0;
-    }
+public interface BookService {
+    public ArrayList<Book> queryBook(String searchWord);
+    public boolean matchBook(String searchWord);
+    public boolean addBook(Book book);
+    public Book getBook(Long bookId);
+    public boolean editBook(Book book);
+    public boolean deleteBook(Long bookId);
 
-    public List<Lend> queryLendBook(String searchContent) {
-        return this.lendDao.queryLendBook(searchContent);
-    }
+    public List<Lend> queryLendBook(String searchContent);
 
-    public List<Lend> queryLendBookByReaderId(String searchContent, Long readerId) {
-       return this.lendDao.queryLendBookByReaderId(searchContent,readerId);
-    }
+    public List<Lend> queryLendBookByReaderId(String searchContent, Long readerId);
 
-    public List<Lend> queryBackBookByReaderId(String searchContent, Long readerId) {
-        return this.lendDao.queryBackBookByReaderId(searchContent,readerId);
-    }
+    public List<Lend> queryBackBookByReaderId(String searchContent, Long readerId) ;
 
-    public List<Lend> queryLendAndBackBookByReaderId(String searchContent, Long readerId) {
-        return this.lendDao.queryLendAndBackBookByReaderId(searchContent,readerId);
-    }
+    public List<Lend> queryLendAndBackBookByReaderId(String searchContent, Long readerId);
 }
